@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { getMockProperties, getMockListings } from '@/mocks';
@@ -9,7 +9,10 @@ import { formatPrice } from '@/lib/format';
 import Link from 'next/link';
 
 export default function ComparePage() {
-  const ids = getCompareIds();
+  const [ids, setIds] = useState<string[]>([]);
+  useEffect(() => {
+    setIds(getCompareIds());
+  }, []);
   const properties = useMemo(() => getMockProperties(0, 80).filter(p => ids.includes(p.id)), [ids]);
   const listings = getMockListings(undefined, 0, 80);
 
